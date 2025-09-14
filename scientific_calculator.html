@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scientific Calculator</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .calculator {
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .display input {
+            width: 100%;
+            height: 60px;
+            border: none;
+            background-color: #222;
+            color: #fff;
+            text-align: right;
+            padding: 20px;
+            font-size: 2em;
+            box-sizing: border-box;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .buttons button {
+            width: 80px;
+            height: 80px;
+            border: 1px solid #ccc;
+            font-size: 1.5em;
+            cursor: pointer;
+            background-color: #fff;
+            transition: background-color 0.2s;
+        }
+
+        .buttons button:hover {
+            background-color: #ddd;
+        }
+
+        .buttons button:active {
+            background-color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="display">
+            <input type="text" id="result" disabled>
+        </div>
+        <div class="buttons">
+            <button onclick="clearScreen()">C</button>
+            <button onclick="backspace()">&larr;</button>
+            <button onclick="insert('**')">^</button>
+            <button onclick="insert('/')">/</button>
+            <button onclick="insert('7')">7</button>
+            <button onclick="insert('8')">8</button>
+            <button onclick="insert('9')">9</button>
+            <button onclick="insert('*')">*</button>
+            <button onclick="insert('4')">4</button>
+            <button onclick="insert('5')">5</button>
+            <button onclick="insert('6')">6</button>
+            <button onclick="insert('-')">-</button>
+            <button onclick="insert('1')">1</button>
+            <button onclick="insert('2')">2</button>
+            <button onclick="insert('3')">3</button>
+            <button onclick="insert('+')">+</button>
+            <button onclick="insert('0')">0</button>
+            <button onclick="insert('.')">.</button>
+            <button onclick="calculate()">=</button>
+            <button onclick="insert('*0.01')">%</button>
+            <button onclick="insert('Math.sin(')">sin</button>
+            <button onclick="insert('Math.cos(')">cos</button>
+            <button onclick="insert('Math.tan(')">tan</button>
+            <button onclick="insert('Math.log10(')">log</button>
+            <button onclick="insert('Math.sqrt(')">sqrt</button>
+            <button onclick="insert('(')">(</button>
+            <button onclick="insert(')')">)</button>
+            <button onclick="insert('Math.PI')">pi</button>
+            <button onclick="insert('Math.E')">e</button>
+        </div>
+    </div>
+
+    <script>
+        function insert(value) {
+            document.getElementById('result').value += value;
+        }
+
+        function clearScreen() {
+            document.getElementById('result').value = '';
+        }
+
+        function backspace() {
+            var value = document.getElementById('result').value;
+            document.getElementById('result').value = value.substr(0, value.length - 1);
+        }
+
+        function calculate() {
+            var p = document.getElementById('result').value;
+            try {
+                // Add closing parentheses if needed
+                var openParens = (p.match(/\(/g) || []).length;
+                var closeParens = (p.match(/\)/g) || []).length;
+                for (var i = 0; i < openParens - closeParens; i++) {
+                    p += ')';
+                }
+                var result = eval(p);
+                document.getElementById('result').value = result;
+            } catch (e) {
+                document.getElementById('result').value = 'Error';
+            }
+        }
+    </script>
+</body>
+</html>
